@@ -2,21 +2,17 @@
 using NLog.Config;
 using NLog.Targets;
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace NLog.Telegram
+namespace NLog.Telegram.NetStandart
 {
     [Target("Telegram")]
     public class TelegramTarget : TargetWithLayout
     {
         public TelegramTarget()
         {
-            this.BaseUrl = "https://api.telegram.org/bot";
+            BaseUrl = "https://api.telegram.org/bot";
         }
+
 
         public string BaseUrl { get; set; }
 
@@ -26,12 +22,13 @@ namespace NLog.Telegram
         [RequiredParameter]
         public string ChatId { get; set; }
 
+
         protected override void InitializeTarget()
         {
-            if (String.IsNullOrWhiteSpace(this.BotToken))
+            if (String.IsNullOrWhiteSpace(BotToken))
                 throw new ArgumentOutOfRangeException("BotToken", "BotToken cannot be empty.");
 
-            if (String.IsNullOrWhiteSpace(this.ChatId))
+            if (String.IsNullOrWhiteSpace(ChatId))
                 throw new ArgumentOutOfRangeException("ChatId", "ChatId cannot be empty.");
 
             base.InitializeTarget();
@@ -41,7 +38,7 @@ namespace NLog.Telegram
         {
             try
             {
-                this.Send(info);
+                Send(info);
             }
             catch (Exception e)
             {
@@ -52,14 +49,18 @@ namespace NLog.Telegram
         private void Send(AsyncLogEventInfo info)
         {
             var message = Layout.Render(info.LogEvent);
+
             var uriBuilder = new UriBuilder(BaseUrl + BotToken);
+
             uriBuilder.Path += "/sendMessage";
+
             var url = uriBuilder.Uri.ToString();
+
             var builder = TelegramMessageBuilder
                 .Build(url, message)
                 .ToChat(ChatId)
                 .OnError(e => info.Continuation(e));
-
+            
             builder.Send();
         }
     }

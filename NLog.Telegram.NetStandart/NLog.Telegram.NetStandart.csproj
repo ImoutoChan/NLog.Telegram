@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Authors>narfunikita (ported by ImoutoChan)</Authors>
+    <Company />
+    <Description>Fork from https://github.com/narfunikita/NLog.Telegram
+
+The library targets .net standart 2.0 with up to date reference to latest nlog (4.5)</Description>
+    <PackageProjectUrl>https://github.com/ImoutoChan/NLog.Telegram</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/ImoutoChan/NLog.Telegram</RepositoryUrl>
+    <PackageTags>nlog target telegram netstandart2.0</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="NLog" Version="4.5.0" />
+  </ItemGroup>
+
+</Project>
